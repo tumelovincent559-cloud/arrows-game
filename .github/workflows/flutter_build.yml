@@ -1,0 +1,35 @@
+name: Flutter APK Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛑 Checkout
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.0"   # Use your version
+
+      - name: 📦 Get Dependencies
+        run: flutter pub get
+
+      - name: 🧪 Run Analyzer (optional)
+        run: flutter analyze
+
+      - name: 🏗 Build Release APK
+        run: flutter build apk --release
+
+      - name: 📤 Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
