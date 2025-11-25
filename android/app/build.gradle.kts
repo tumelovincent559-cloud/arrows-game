@@ -9,13 +9,17 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    // VERY IMPORTANT FIX
+    compileSdkPreview = null
+
+    // Java & Kotlin compatibility
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "17"
     }
 
     defaultConfig {
@@ -28,7 +32,12 @@ android {
 
     buildTypes {
         release {
+            // Change to real keystore later
             signingConfig = signingConfigs.getByName("debug")
+
+            // Recommended for CI
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
@@ -37,9 +46,6 @@ flutter {
     source = "../.."
 }
 
-dependencies {}
-
-
-
-
-
+dependencies {
+    // no manual dependencies needed
+}
